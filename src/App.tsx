@@ -35,7 +35,14 @@ const App = () => (
               <GenderBackground />
             </div>
             <div className="relative z-0 max-w-7xl mx-auto md:px-8">
-              <Suspense fallback={<div className="min-h-screen" />}>
+              <Suspense fallback={
+                <div className="min-h-screen flex items-center justify-center">
+                  <div className="flex flex-col items-center gap-3">
+                    <div className="w-8 h-8 border-[3px] border-muted-foreground/20 border-t-primary rounded-full animate-spin" />
+                    <span className="text-xs text-muted-foreground font-body">Loading…</span>
+                  </div>
+                </div>
+              }>
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/salon/:id" element={<SalonDetail />} />
