@@ -39,20 +39,29 @@ const HomePage = () => {
 
   return (
     <div id="main-content" className="min-h-screen pb-20 md:max-w-5xl md:mx-auto">
-      {/* Header — sticky, native-safe for WebView (iOS/Android) */}
+      {/* Header — fixed, native-safe for Flutter WebView (iOS/Android) */}
       <header
-        className="sticky top-0 z-30 backdrop-blur-xl border-b border-border/50"
+        className="fixed top-0 left-0 right-0 z-30 border-b border-border/30 md:max-w-5xl md:mx-auto"
         style={{
-          paddingTop: 'calc(env(safe-area-inset-top, 0px) + 12px)',
-          background: 'linear-gradient(180deg, hsl(var(--background) / 0.97) 0%, hsl(var(--background) / 0.92) 100%)',
-          WebkitBackdropFilter: 'blur(20px)',
+          paddingTop: 'calc(env(safe-area-inset-top, 0px) + 8px)',
+          paddingLeft: 'env(safe-area-inset-left, 0px)',
+          paddingRight: 'env(safe-area-inset-right, 0px)',
+          background: 'hsl(var(--background) / 0.96)',
+          WebkitBackdropFilter: 'saturate(180%) blur(16px)',
+          backdropFilter: 'saturate(180%) blur(16px)',
+          transform: 'translateZ(0)',
+          WebkitTransform: 'translateZ(0)',
         }}
       >
-        <div className="px-5 pb-3">
+        <div className="px-5 pb-3 pt-1">
           <div className="flex items-center justify-between">
             {/* Profile + Greeting */}
-            <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-full overflow-hidden ring-[2.5px] ring-primary/20 shadow-sm">
+            <button
+              onClick={() => navigate('/profile')}
+              className="flex items-center gap-3 min-h-[48px] active:opacity-70 transition-opacity duration-150"
+              aria-label="Go to profile"
+            >
+              <div className="w-11 h-11 rounded-full overflow-hidden ring-2 ring-accent/25 shadow-md">
                 <img
                   src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop"
                   alt="Profile"
@@ -63,35 +72,38 @@ const HomePage = () => {
                   onError={(e) => { (e.target as HTMLImageElement).src = '/placeholder.svg'; }}
                 />
               </div>
-              <div>
-                <p className="text-[12px] text-muted-foreground font-body leading-none tracking-wide uppercase">Welcome back</p>
+              <div className="text-left">
+                <p className="text-[11px] text-muted-foreground font-body leading-none tracking-widest uppercase">Welcome back</p>
                 <p className="font-heading font-bold text-[16px] text-foreground mt-0.5 tracking-tight">Aarav</p>
               </div>
-            </div>
+            </button>
 
-            {/* Action buttons */}
-            <div className="flex items-center gap-2">
+            {/* Action buttons — 48px tap targets for Flutter WebView */}
+            <div className="flex items-center gap-1.5">
               <button
                 onClick={() => setLocationOpen(true)}
-                className="flex items-center gap-1.5 bg-card/80 border border-border/60 px-3.5 py-2 rounded-2xl min-h-[44px] shadow-sm active:scale-95 transition-all duration-150"
+                className="flex items-center gap-1.5 bg-card/90 border border-border/50 px-3 rounded-xl min-h-[48px] shadow-sm active:scale-[0.96] transition-transform duration-150"
                 aria-label="Select location"
               >
-                <MapPin size={14} className="text-accent" />
+                <MapPin size={15} className="text-accent" />
                 <span className="text-[13px] font-body font-semibold text-foreground">Bangalore</span>
-                <ChevronDown size={11} className="text-muted-foreground" />
+                <ChevronDown size={12} className="text-muted-foreground/70" />
               </button>
               <button
                 onClick={() => setNotifOpen(true)}
-                className="relative p-2.5 bg-card/80 border border-border/60 rounded-2xl min-h-[44px] min-w-[44px] flex items-center justify-center shadow-sm active:scale-95 transition-all duration-150"
+                className="relative bg-card/90 border border-border/50 rounded-xl min-h-[48px] min-w-[48px] flex items-center justify-center shadow-sm active:scale-[0.96] transition-transform duration-150"
                 aria-label="Notifications"
               >
-                <Bell size={18} className="text-foreground" />
-                <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-accent rounded-full ring-2 ring-background" />
+                <Bell size={19} className="text-foreground" />
+                <span className="absolute top-3 right-3 w-[7px] h-[7px] bg-accent rounded-full ring-[2px] ring-background" />
               </button>
             </div>
           </div>
         </div>
       </header>
+
+      {/* Spacer for fixed header */}
+      <div style={{ height: 'calc(env(safe-area-inset-top, 0px) + 72px)' }} />
 
       {/* Gender Toggle + Heading */}
       <div className="px-5 pt-2 pb-3">
