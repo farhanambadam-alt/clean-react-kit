@@ -18,6 +18,16 @@ const HomePage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [notifOpen, setNotifOpen] = useState(false);
   const [locationOpen, setLocationOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  const handleScroll = useCallback(() => {
+    setScrolled(window.scrollY > 20);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
 
   const genderCategories = categories.filter((c) => c.gender === gender);
   const completedBookings = bookings.filter((b) => b.status === 'completed');
