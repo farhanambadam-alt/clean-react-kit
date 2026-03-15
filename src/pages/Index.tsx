@@ -49,18 +49,25 @@ const HomePage = () => {
 
   return (
     <div id="main-content" className="min-h-screen pb-20 md:max-w-5xl md:mx-auto">
-      {/* Header — fixed, native-safe for Flutter WebView (iOS/Android) */}
+      {/* Header — fixed, theme-aware, scroll-reactive for Flutter WebView */}
       <header
-        className="fixed top-0 left-0 right-0 z-30 border-b border-border/30 md:max-w-5xl md:mx-auto"
+        className="fixed top-0 left-0 right-0 z-30 md:max-w-5xl md:mx-auto"
         style={{
           paddingTop: 'calc(env(safe-area-inset-top, 0px) + 8px)',
           paddingLeft: 'env(safe-area-inset-left, 0px)',
           paddingRight: 'env(safe-area-inset-right, 0px)',
-          background: 'hsl(var(--background) / 0.96)',
-          WebkitBackdropFilter: 'saturate(180%) blur(16px)',
-          backdropFilter: 'saturate(180%) blur(16px)',
+          background: scrolled
+            ? 'hsl(var(--background) / 0.92)'
+            : gender === 'female'
+              ? 'linear-gradient(180deg, hsla(330, 60%, 92%, 0.7) 0%, hsla(280, 50%, 92%, 0.3) 100%)'
+              : 'linear-gradient(180deg, hsla(210, 60%, 92%, 0.7) 0%, hsla(216, 50%, 92%, 0.3) 100%)',
+          borderBottom: scrolled ? '1px solid hsl(var(--border) / 0.4)' : '1px solid transparent',
+          WebkitBackdropFilter: scrolled ? 'saturate(180%) blur(20px)' : 'none',
+          backdropFilter: scrolled ? 'saturate(180%) blur(20px)' : 'none',
+          boxShadow: scrolled ? '0 1px 12px -4px hsl(var(--foreground) / 0.08)' : 'none',
           transform: 'translateZ(0)',
           WebkitTransform: 'translateZ(0)',
+          transition: 'background 0.4s ease, border-bottom 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease',
         }}
       >
         <div className="px-5 pb-3 pt-1">
@@ -92,7 +99,11 @@ const HomePage = () => {
             <div className="flex items-center gap-1.5">
               <button
                 onClick={() => setLocationOpen(true)}
-                className="flex items-center gap-1.5 bg-card/90 border border-border/50 px-3 rounded-xl min-h-[48px] shadow-sm active:scale-[0.96] transition-transform duration-150"
+                className={`flex items-center gap-1.5 border px-3 rounded-xl min-h-[48px] shadow-sm active:scale-[0.96] transition-all duration-200 ${
+                  scrolled
+                    ? 'bg-card/90 border-border/50'
+                    : 'bg-white/50 border-white/40'
+                }`}
                 aria-label="Select location"
               >
                 <MapPin size={15} className="text-accent" />
@@ -101,7 +112,11 @@ const HomePage = () => {
               </button>
               <button
                 onClick={() => setNotifOpen(true)}
-                className="relative bg-card/90 border border-border/50 rounded-xl min-h-[48px] min-w-[48px] flex items-center justify-center shadow-sm active:scale-[0.96] transition-transform duration-150"
+                className={`relative border rounded-xl min-h-[48px] min-w-[48px] flex items-center justify-center shadow-sm active:scale-[0.96] transition-all duration-200 ${
+                  scrolled
+                    ? 'bg-card/90 border-border/50'
+                    : 'bg-white/50 border-white/40'
+                }`}
                 aria-label="Notifications"
               >
                 <Bell size={19} className="text-foreground" />
