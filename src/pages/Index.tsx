@@ -39,44 +39,56 @@ const HomePage = () => {
 
   return (
     <div id="main-content" className="min-h-screen pb-20 md:max-w-5xl md:mx-auto">
-      {/* Header — sticky for native feel */}
-      <header className="sticky top-0 z-30 bg-background/90 backdrop-blur-md px-5 pt-6 pb-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-secondary overflow-hidden ring-2 ring-border">
-              <img
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop"
-                alt="Profile"
-                className="w-full h-full object-cover"
-                decoding="async"
-                width={40}
-                height={40}
-                onError={(e) => { (e.target as HTMLImageElement).src = '/placeholder.svg'; }}
-              />
+      {/* Header — sticky, native-safe for WebView (iOS/Android) */}
+      <header
+        className="sticky top-0 z-30 backdrop-blur-xl border-b border-border/50"
+        style={{
+          paddingTop: 'calc(env(safe-area-inset-top, 0px) + 12px)',
+          background: 'linear-gradient(180deg, hsl(var(--background) / 0.97) 0%, hsl(var(--background) / 0.92) 100%)',
+          WebkitBackdropFilter: 'blur(20px)',
+        }}
+      >
+        <div className="px-5 pb-3">
+          <div className="flex items-center justify-between">
+            {/* Profile + Greeting */}
+            <div className="flex items-center gap-3">
+              <div className="w-11 h-11 rounded-full overflow-hidden ring-[2.5px] ring-primary/20 shadow-sm">
+                <img
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop"
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                  decoding="async"
+                  width={44}
+                  height={44}
+                  onError={(e) => { (e.target as HTMLImageElement).src = '/placeholder.svg'; }}
+                />
+              </div>
+              <div>
+                <p className="text-[12px] text-muted-foreground font-body leading-none tracking-wide uppercase">Welcome back</p>
+                <p className="font-heading font-bold text-[16px] text-foreground mt-0.5 tracking-tight">Aarav</p>
+              </div>
             </div>
-            <div>
-              <p className="text-[13px] text-muted-foreground font-body leading-none">Welcome back</p>
-              <p className="font-heading font-semibold text-[15px] text-foreground mt-0.5">Aarav</p>
+
+            {/* Action buttons */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setLocationOpen(true)}
+                className="flex items-center gap-1.5 bg-card/80 border border-border/60 px-3.5 py-2 rounded-2xl min-h-[44px] shadow-sm active:scale-95 transition-all duration-150"
+                aria-label="Select location"
+              >
+                <MapPin size={14} className="text-accent" />
+                <span className="text-[13px] font-body font-semibold text-foreground">Bangalore</span>
+                <ChevronDown size={11} className="text-muted-foreground" />
+              </button>
+              <button
+                onClick={() => setNotifOpen(true)}
+                className="relative p-2.5 bg-card/80 border border-border/60 rounded-2xl min-h-[44px] min-w-[44px] flex items-center justify-center shadow-sm active:scale-95 transition-all duration-150"
+                aria-label="Notifications"
+              >
+                <Bell size={18} className="text-foreground" />
+                <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-accent rounded-full ring-2 ring-background" />
+              </button>
             </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setLocationOpen(true)}
-              className="flex items-center gap-1.5 bg-card border border-border px-3 py-2 rounded-xl min-h-[44px]"
-              aria-label="Select location"
-            >
-              <MapPin size={13} className="text-primary" />
-              <span className="text-[13px] font-body font-medium text-foreground">Bangalore</span>
-              <ChevronDown size={11} className="text-muted-foreground" />
-            </button>
-            <button
-              onClick={() => setNotifOpen(true)}
-              className="relative p-2.5 bg-card border border-border rounded-xl min-h-[44px] min-w-[44px] flex items-center justify-center"
-              aria-label="Notifications"
-            >
-              <Bell size={17} className="text-foreground" />
-              <span className="absolute top-2 right-2 w-1.5 h-1.5 bg-accent rounded-full" />
-            </button>
           </div>
         </div>
       </header>
